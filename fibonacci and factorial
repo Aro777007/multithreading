@@ -1,0 +1,57 @@
+
+
+#include <iostream>
+using namespace std;
+#include <thread>
+
+int fibonacci(int n)
+{
+	if (n <= 1)
+	{
+		return 1;
+	}
+
+    int a = 0, b = 1;
+    for (int i = 2; i <= n; ++i) {
+        int next = a + b;
+        a = b;
+        b = next;
+    }
+    return b;
+}
+
+int factorial(int n)
+
+{
+    if (n <= 1)
+    {
+        return 1;
+    }
+    int result = 1;
+    for (int i = 2; i <= n; ++i)
+    {
+        result *= i;
+    }
+    return result;
+}
+
+
+
+int main()
+{
+    int n = 5;
+
+    int result = 0;
+    int resultt = 0;
+
+    std::thread thread([&] { result = fibonacci(n); });
+    std::thread threadd([&] { resultt = factorial(n); });
+
+    thread.join();
+    threadd.join();
+
+    cout << result << endl;
+    cout << resultt << endl;
+
+}
+
