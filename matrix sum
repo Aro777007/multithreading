@@ -1,0 +1,36 @@
+#include <iostream>
+#include <thread>
+
+const int size = 3;
+const int ssize = 3;
+int matrix[size][ssize] = { {1, 2, 3}, {4, 5, 6}, {7, 8, 10} };
+
+//const int numThreads = 3; // One thread per row
+int sums[size];
+
+void calculateSum(int row) {
+    for (int j = 0; j < size; ++j) {
+        sums[row] += matrix[row][j];
+    }
+}
+
+int main() {
+    std::thread threads[size];
+
+    for (int i = 0; i < size; ++i) {
+        threads[i] = std::thread(calculateSum, i);
+    }
+
+    for (int i = 0; i < size; ++i) {
+        threads[i].join();
+    }
+
+    int total = 0;
+    for (int i = 0; i < size; ++i) {
+        total += sums[i];
+    }
+
+    std::cout << total << std::endl;
+
+    return 0;
+}
